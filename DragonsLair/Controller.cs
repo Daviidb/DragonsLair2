@@ -4,6 +4,7 @@ using System.Linq;
 using TournamentLib;
 using System.Reflection;
 using System.Text;
+using System.IO;
 
 
 namespace DragonsLair
@@ -17,65 +18,126 @@ namespace DragonsLair
             return tournamentRepository;
         }
 
-        public void ShowScore(string tournamentName)
+        public void PrintScore(string tournamentName)
         {
-            Tournament tournament = tournamentRepository.GetTournament(tournamentName);
-            List<int> points = new int[tournament.GetTeams().Count].ToList<int>();
-            List<Team> teams = tournament.GetTeams();
-            List<string> sortedList = new List<string>();
-
-            int countedTeams = teams.Count;
-            int rounds = tournament.GetNumberOfRounds();
-            for (int i = 0; i < rounds; i++)
+            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/Mathias's kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
             {
-                List<Team> winners = tournament.GetRound(i).GetWinningTeams();
-                if(winners[0] != null)
+                Tournament tournament = tournamentRepository.GetTournament(tournamentName);
+                List<int> points = new int[tournament.GetTeams().Count].ToList<int>();
+                List<Team> teams = tournament.GetTeams();
+                List<string> sortedList = new List<string>();
+
+                int countedTeams = teams.Count;
+                int rounds = tournament.GetNumberOfRounds();
+                for (int i = 0; i < rounds; i++)
                 {
-                    foreach (Team winner in winners)
+                    List<Team> winners = tournament.GetRound(i).GetWinningTeams();
+                    if (winners[0] != null)
                     {
-                        for (int j = 0; j < tournament.GetTeams().Count; j++)
+                        foreach (Team winner in winners)
                         {
-                            if (winner.Name == tournament.GetTeams()[j].Name)
+                            for (int j = 0; j < tournament.GetTeams().Count; j++)
                             {
-                                points[j] = points[j] + 1;
+                                if (winner.Name == tournament.GetTeams()[j].Name)
+                                {
+                                    points[j] = points[j] + 1;
+                                }
                             }
                         }
                     }
+
                 }
-                
+
+
+
+                Console.WriteLine("  #####                                        ");
+                Console.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
+                Console.WriteLine(" #         #   # #      #      # ##   # #    # ");
+                Console.WriteLine("  #####    #   # #      #      # # #  # #      ");
+                Console.WriteLine("       #   #   # #      #      # #  # # #  ### ");
+                Console.WriteLine(" #     #   #   # #      #      # #   ## #    # ");
+                Console.WriteLine("  #####    #   # ###### ###### # #    #  ####  ");
+
+                Console.WriteLine("0-------------------------------------------0");
+                PrintLine("Turnering: " + tournamentName);
+                PrintLine("Spillede runder: " + rounds);
+                PrintLine("Spillede kampe: " + "Ehh??");
+                Console.WriteLine("|----------------------------| VUNDNE KAMPE |");
+                for (int i = 0; i < countedTeams; i++)
+                {
+                    int index = points.IndexOf(points.Max());
+                    PrintLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
+
+                    points.RemoveAt(index);
+                    teams.RemoveAt(index);
+                }
+                Console.WriteLine("0-------------------------------------------0");
+                Console.ReadLine();
             }
-            
+        }
 
-
-            Console.WriteLine("  #####                                        ");
-            Console.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
-            Console.WriteLine(" #         #   # #      #      # ##   # #    # ");
-            Console.WriteLine("  #####    #   # #      #      # # #  # #      ");
-            Console.WriteLine("       #   #   # #      #      # #  # # #  ### ");
-            Console.WriteLine(" #     #   #   # #      #      # #   ## #    # ");
-            Console.WriteLine("  #####    #   # ###### ###### # #    #  ####  ");
-
-            Console.WriteLine("0-------------------------------------------0");
-            PrintLine("Turnering: " + tournamentName);
-            PrintLine("Spillede runder: " + rounds);
-            PrintLine("Spillede kampe: " + "Ehh??");
-            Console.WriteLine("|----------------------------| VUNDNE KAMPE |");
-            for (int i = 0; i < countedTeams; i++)
+        public void ShowScore(string tournamentName)
+        {
+            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/Mathias's kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
             {
-                int index = points.IndexOf(points.Max());
-                PrintLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
+                Tournament tournament = tournamentRepository.GetTournament(tournamentName);
+                List<int> points = new int[tournament.GetTeams().Count].ToList<int>();
+                List<Team> teams = tournament.GetTeams();
+                List<string> sortedList = new List<string>();
 
-                points.RemoveAt(index);
-                teams.RemoveAt(index);
+                int countedTeams = teams.Count;
+                int rounds = tournament.GetNumberOfRounds();
+                for (int i = 0; i < rounds; i++)
+                {
+                    List<Team> winners = tournament.GetRound(i).GetWinningTeams();
+                    if (winners[0] != null)
+                    {
+                        foreach (Team winner in winners)
+                        {
+                            for (int j = 0; j < tournament.GetTeams().Count; j++)
+                            {
+                                if (winner.Name == tournament.GetTeams()[j].Name)
+                                {
+                                    points[j] = points[j] + 1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+
+                writer.WriteLine("  #####                                        ");
+                writer.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
+                writer.WriteLine(" #         #   # #      #      # ##   # #    # ");
+                writer.WriteLine("  #####    #   # #      #      # # #  # #      ");
+                writer.WriteLine("       #   #   # #      #      # #  # # #  ### ");
+                writer.WriteLine(" #     #   #   # #      #      # #   ## #    # ");
+                writer.WriteLine("  #####    #   # ###### ###### # #    #  ####  ");
+
+                writer.WriteLine("0-------------------------------------------0");
+                PrintLine("Turnering: " + tournamentName);
+                PrintLine("Spillede runder: " + rounds);
+                PrintLine("Spillede kampe: " + "Ehh??");
+                writer.WriteLine("|----------------------------| VUNDNE KAMPE |");
+                for (int i = 0; i < countedTeams; i++)
+                {
+                    int index = points.IndexOf(points.Max());
+                    PrintLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
+
+                    points.RemoveAt(index);
+                    teams.RemoveAt(index);
+                }
+                writer.WriteLine("0-------------------------------------------0");
+                Console.ReadLine();
             }
-            Console.WriteLine("0-------------------------------------------0");
-            Console.ReadLine();
         }
 
         public void ScheduleNewRound(string tournamentName, bool printNewMatches = true)
         {
             Tournament tournament = tournamentRepository.GetTournament(tournamentName);
-            //tournament.SetupTestTeams(); // Bruges til at teste menuen, udkommenter ved test
+            tournament.SetupTestTeams(); // Bruges til at teste menuen, udkommenter ved test
             Round newRound = new Round();
             Match newMatch;
             
