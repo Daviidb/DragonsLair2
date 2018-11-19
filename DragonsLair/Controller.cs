@@ -18,17 +18,10 @@ namespace DragonsLair
             return tournamentRepository;
         }
 
-        public void PrintScore(string winner)
-        {
-            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/Mathias's kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
-            {
-
-            }
-        }
 
         public void ShowScore(string tournamentName)
         {
-            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/Mathias's kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
+            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
             {
                 Tournament tournament = tournamentRepository.GetTournament(tournamentName);
                 List<int> points = new int[tournament.GetTeams().Count].ToList<int>();
@@ -57,7 +50,6 @@ namespace DragonsLair
                 }
 
 
-
                 Console.WriteLine("  #####                                        ");
                 Console.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
                 Console.WriteLine(" #         #   # #      #      # ##   # #    # ");
@@ -66,22 +58,34 @@ namespace DragonsLair
                 Console.WriteLine(" #     #   #   # #      #      # #   ## #    # ");
                 Console.WriteLine("  #####    #   # ###### ###### # #    #  ####  ");
 
+                writer.WriteLine("  #####                                        ");
+                writer.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
+                writer.WriteLine(" #         #   # #      #      # ##   # #    # ");
+                writer.WriteLine("  #####    #   # #      #      # # #  # #      ");
+                writer.WriteLine("       #   #   # #      #      # #  # # #  ### ");
+                writer.WriteLine(" #     #   #   # #      #      # #   ## #    # ");
+                writer.WriteLine("  #####    #   # ###### ###### # #    #  ####  ");
+
                 Console.WriteLine("0-------------------------------------------0");
+                writer.WriteLine("0-------------------------------------------0");
                 Console.WriteLine("Turnering: " + tournamentName);
                 writer.WriteLine("Turnering: " + tournamentName);
                 Console.WriteLine("Spillede runder: " + rounds);
                 writer.WriteLine("Spillede runder: " + rounds);
                 writer.WriteLine("Vinder af turnering: ");
                 Console.WriteLine("|----------------------------| VUNDNE KAMPE |");
+                writer.WriteLine("|----------------------------| VUNDNE KAMPE |");
                 for (int i = 0; i < countedTeams; i++)
                 {
                     int index = points.IndexOf(points.Max());
-                    PrintLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
+                    Console.WriteLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
+                    writer.WriteLine(PaddedText(teams[index].ToString(), 27) + " - " + PaddedText(points[index].ToString(), 13));
 
                     points.RemoveAt(index);
                     teams.RemoveAt(index);
                 }
                 Console.WriteLine("0-------------------------------------------0");
+                writer.WriteLine("0-------------------------------------------0");
                 Console.ReadLine();
             }
         }
