@@ -21,25 +21,25 @@ namespace DragonsLair
 
         public void ShowScore(string tournamentName)
         {
-            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/kode/Dragons-Lair-master/DragonsLair/Turnering.txt"))
+            using (StreamWriter writer = new StreamWriter("C:/Users/woopi/Desktop/kode/Dragons-Lair-master/DragonsLair/TurneringResultat.txt"))
             {
-                Tournament tournament = tournamentRepository.GetTournament(tournamentName);
-                List<int> points = new int[tournament.GetTeams().Count].ToList<int>();
-                List<Team> teams = tournament.GetTeams();
-                List<string> sortedList = new List<string>();
+                Tournament tournament = tournamentRepository.GetTournament(tournamentName); // Instancere et objekt kaldet tournament som referere til  metode i repo
+                List<int> points = new int[tournament.GetTeams().Count].ToList<int>(); // Opretter en liste ud fra et tomt array som har længden af teams.
+                List<Team> teams = tournament.GetTeams(); // Opretter en liste ved at kalde på metoden GetTeams fra tournament classen.
+                
+                int countedTeams = teams.Count; // countedTeams tæller hvor mange teams der er i vores liste "teams"
+                int rounds = tournament.GetNumberOfRounds(); // Tæller runder ved at kalde på metoden GetNumberOfRounds.
 
-                int countedTeams = teams.Count;
-                int rounds = tournament.GetNumberOfRounds();
-                for (int i = 0; i < rounds; i++)
+                for (int i = 0; i < rounds; i++) 
                 {
-                    List<Team> winners = tournament.GetRound(i).GetWinningTeams();
-                    if (winners[0] != null)
+                    List<Team> winners = tournament.GetRound(i).GetWinningTeams(); // Liste med alle vinderne
+                    if (winners[0] != null) // hvis den første plads er null, betyder det at der ikke er nogle teams.
                     {
-                        foreach (Team winner in winners)
+                        foreach (Team winner in winners) 
                         {
-                            for (int j = 0; j < tournament.GetTeams().Count; j++)
+                            for (int j = 0; j < tournament.GetTeams().Count; j++) // køre igennem så mange gange som der er hold.
                             {
-                                if (winner.Name == tournament.GetTeams()[j].Name)
+                                if (winner.Name == tournament.GetTeams()[j].Name) // hvis holdet er vinderen, får de et point.
                                 {
                                     points[j] = points[j] + 1;
                                 }
@@ -48,7 +48,6 @@ namespace DragonsLair
                     }
 
                 }
-
 
                 Console.WriteLine("  #####                                        ");
                 Console.WriteLine(" #     # ##### # #      #      # #    #  ####  ");
